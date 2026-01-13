@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣诞快乐</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 飘雪效果容器 */
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #fff;
+            font-size: 1em;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            animation: fall linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        /* 主卡片容器 */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),
+                        inset 0 0 60px rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: cardAppear 1.5s ease-out;
+        }
+
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* 圣诞树装饰 */
+        .tree-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .tree {
+            font-size: 80px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                filter: drop-shadow(0 0 10px #ffd700);
+            }
+            100% {
+                filter: drop-shadow(0 0 25px #ff6b6b) drop-shadow(0 0 35px #ffd700);
+            }
+        }
+
+        /* 装饰星星 */
+        .stars {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            color: #ffd700;
+            animation: twinkle 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.5;
+                transform: translateX(-50%) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
+        /* 标题 */
+        .title {
+            color: #ffd700;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
+                         0 0 40px rgba(255, 107, 107, 0.3);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
+                             0 0 40px rgba(255, 107, 107, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(255, 215, 0, 0.8),
+                             0 0 60px rgba(255, 107, 107, 0.5);
+            }
+        }
+
+        /* 祝福语 */
+        .message {
+            color: #e8e8e8;
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 署名 */
+        .signature {
+            color: #ff9a9e;
+            font-style: italic;
+            font-size: 1.1em;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 1s forwards;
+        }
+
+        /* 装饰线 */
+        .divider {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            margin: 25px auto;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 0.8s forwards;
+        }
+
+        /* 音乐控制按钮 */
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ff6b6b, #ee5a5a);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.6);
+        }
+
+        .music-btn.playing {
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* 底部装饰 */
+        .decorations {
+            margin-top: 25px;
+            font-size: 25px;
+            letter-spacing: 10px;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 1.2s forwards;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            .card {
+                padding: 35px 25px;
+                margin: 10px;
+            }
+
+            .title {
+                font-size: 1.8em;
+            }
+
+            .message {
+                font-size: 1em;
+            }
+
+            .tree {
+                font-size: 60px;
+            }
+
+            .music-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 飘雪效果 -->
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <!-- 主卡片 -->
+    <div class="card-container">
+        <div class="card">
+            <div class="tree-container">
+                <span class="stars">&#11088;</span>
+                <div class="tree">&#127876;</div>
+            </div>
+            
+            <h1 class="title">Merry Christmas</h1>
+            
+            <div class="divider"></div>
+            
+            <p class="message">
+                在这个温暖的圣诞节<br>
+                愿你被幸福环绕<br>
+                愿爱与温暖常伴左右<br>
+                愿所有美好如期而至
+            </p>
+            
+            <div class="divider"></div>
+            
+            <p class="signature">
+                &#10052; 送上最真挚的祝福 &#10052;
+            </p>
+            
+            <div class="decorations">
+                &#127873; &#127877; &#127875;
+            </div>
+        </div>
+    </div>
+
+    <!-- 音乐控制按钮 -->
+    <button class="music-btn" id="musicBtn" title="播放/暂停音乐">
+        &#127925;
+    </button>
+
+    <!-- 背景音乐 - 使用免费的圣诞音乐 -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // 创建飘雪效果
+        function createSnowflakes() {
+            const container = document.getElementById('snowflakes');
+            const snowflakeChars = ['&#10052;', '&#10053;', '&#10054;', '&#42;'];
+            
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                snowflake.style.animationDelay = (Math.random() * 5) + 's';
+                snowflake.style.opacity = Math.random() * 0.6 + 0.4;
+                container.appendChild(snowflake);
+            }
+        }
+
+        // 音乐控制
+        const musicBtn = document.getElementById('musicBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicBtn.classList.remove('playing');
+                musicBtn.innerHTML = '&#127925;';
+            } else {
+                bgMusic.play().then(() => {
+                    musicBtn.classList.add('playing');
+                    musicBtn.innerHTML = '&#9208;';
+                }).catch(e => {
+                    console.log('音乐播放需要用户交互:', e);
+                    alert('点击按钮播放圣诞音乐 &#127876;');
+                });
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 页面加载完成后初始化
+        window.onload = function() {
+            createSnowflakes();
+            
+            // 持续生成新的雪花
+            setInterval(() => {
+                const container = document.getElementById('snowflakes');
+                if (container.children.length < 60) {
+                    const snowflakeChars = ['&#10052;', '&#10053;', '&#10054;', '&#42;'];
+                    const snowflake = document.createElement('div');
+                    snowflake.className = 'snowflake';
+                    snowflake.innerHTML = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+                    snowflake.style.left = Math.random() * 100 + '%';
+                    snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                    snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                    snowflake.style.opacity = Math.random() * 0.6 + 0.4;
+                    container.appendChild(snowflake);
+                    
+                    // 动画结束后移除雪花
+                    setTimeout(() => {
+                        if (snowflake.parentNode) {
+                            snowflake.parentNode.removeChild(snowflake);
+                        }
+                    }, 10000);
+                }
+            }, 300);
+        };
+    </script>
+</body>
+</html>
