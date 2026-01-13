@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: my-personal-blog
+    runtime: docker
+    region: singapore
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: ADMIN_PASSWORD
+        generateValue: true
