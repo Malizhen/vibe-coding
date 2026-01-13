@@ -1,0 +1,68 @@
+{{define "header"}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - 我的博客</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="logo">我的博客</a>
+            <nav class="main-nav">
+                <a href="/">首页</a>
+                <a href="/about">关于</a>
+                <a href="/contact">联系</a>
+                <a href="/rss" class="rss-link">RSS</a>
+            </nav>
+            <button class="menu-toggle" aria-label="菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+    <main class="site-main">
+        <div class="container main-content">
+{{end}}
+
+{{define "sidebar"}}
+            <aside class="sidebar">
+                {{if .Categories}}
+                <div class="widget">
+                    <h3>分类</h3>
+                    <ul class="category-list">
+                        {{range .Categories}}
+                        <li><a href="/category/{{.}}">{{.}}</a></li>
+                        {{end}}
+                    </ul>
+                </div>
+                {{end}}
+                {{if .Tags}}
+                <div class="widget">
+                    <h3>标签</h3>
+                    <div class="tag-cloud">
+                        {{range .Tags}}
+                        <a href="/tag/{{.}}" class="tag">{{.}}</a>
+                        {{end}}
+                    </div>
+                </div>
+                {{end}}
+            </aside>
+{{end}}
+
+{{define "footer"}}
+        </div>
+    </main>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 我的博客. 保留所有权利.</p>
+        </div>
+    </footer>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
+{{end}}

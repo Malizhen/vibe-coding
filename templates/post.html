@@ -1,0 +1,69 @@
+{{template "header" .}}
+            <div class="content-area">
+                <article class="post-single">
+                    <header class="post-header">
+                        <h1 class="post-title">{{.Post.Title}}</h1>
+                        <div class="post-meta">
+                            <time datetime="{{formatDateShort .Post.Date}}">{{formatDate .Post.Date}}</time>
+                            <span class="reading-time">{{.Post.ReadingTime}} 分钟阅读</span>
+                            {{if .Post.Category}}
+                            <a href="/category/{{.Post.Category}}" class="post-category">{{.Post.Category}}</a>
+                            {{end}}
+                        </div>
+                        {{if .Post.Tags}}
+                        <div class="post-tags">
+                            {{range .Post.Tags}}
+                            <a href="/tag/{{.}}" class="tag">{{.}}</a>
+                            {{end}}
+                        </div>
+                        {{end}}
+                    </header>
+                    
+                    <div class="post-content">
+                        {{safeHTML .Post.HTMLContent}}
+                    </div>
+                </article>
+
+                <section class="comments-section">
+                    <h2>评论</h2>
+                    
+                    {{if .Comments}}
+                    <div class="comments-list">
+                        {{range .Comments}}
+                        <div class="comment">
+                            <div class="comment-header">
+                                <strong class="comment-author">{{.Author}}</strong>
+                                <time class="comment-date">{{formatDate .CreatedAt}}</time>
+                            </div>
+                            <div class="comment-content">{{.Content}}</div>
+                        </div>
+                        {{end}}
+                    </div>
+                    {{else}}
+                    <p class="no-comments">还没有评论，来发表第一条评论吧！</p>
+                    {{end}}
+
+                    <form class="comment-form" action="/api/comment" method="POST">
+                        <input type="hidden" name="post_slug" value="{{.Post.Slug}}">
+                        <h3>发表评论</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="author">昵称 *</label>
+                                <input type="text" id="author" name="author" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input type="email" id="email" name="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">评论内容 *</label>
+                            <textarea id="content" name="content" rows="4" required></textarea>
+                        </div>
+                        <p class="form-note">评论需要审核后才会显示。</p>
+                        <button type="submit" class="btn">提交评论</button>
+                    </form>
+                </section>
+            </div>
+            {{template "sidebar" .}}
+{{template "footer" .}}

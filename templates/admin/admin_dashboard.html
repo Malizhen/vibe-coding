@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - 管理后台</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="admin-page">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <a href="/admin/dashboard">管理后台</a>
+            </div>
+            <nav class="admin-nav">
+                <a href="/admin/dashboard" class="nav-item">仪表盘</a>
+                <a href="/admin/posts" class="nav-item">文章管理</a>
+                <a href="/admin/posts/new" class="nav-item">写新文章</a>
+                <a href="/admin/comments" class="nav-item">评论管理</a>
+                <hr>
+                <a href="/" class="nav-item" target="_blank">查看网站</a>
+                <a href="/admin/logout" class="nav-item">退出登录</a>
+            </nav>
+        </aside>
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>仪表盘</h1>
+            </header>
+            <div class="admin-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">{{.PostCount}}</div>
+                        <div class="stat-label">文章数量</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{.PendingComments}}</div>
+                        <div class="stat-label">待审核评论</div>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <h2>快捷操作</h2>
+                    <a href="/admin/posts/new" class="btn btn-primary">写新文章</a>
+                    <a href="/admin/comments" class="btn">审核评论</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

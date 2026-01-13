@@ -1,0 +1,5 @@
+.git
+blog
+*.exe
+*.test
+*.out
