@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} - 管理后台</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="admin-page">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <a href="/admin/dashboard">管理后台</a>
+            </div>
+            <nav class="admin-nav">
+                <a href="/admin/dashboard" class="nav-item">仪表盘</a>
+                <a href="/admin/posts" class="nav-item">文章管理</a>
+                <a href="/admin/posts/new" class="nav-item {{if .IsNew}}active{{end}}">写新文章</a>
+                <a href="/admin/comments" class="nav-item">评论管理</a>
+                <hr>
+                <a href="/" class="nav-item" target="_blank">查看网站</a>
+                <a href="/admin/logout" class="nav-item">退出登录</a>
+            </nav>
+        </aside>
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>{{if .IsNew}}写新文章{{else}}编辑文章{{end}}</h1>
+            </header>
+            <div class="admin-content">
+                {{if .Error}}
+                <div class="alert alert-error">{{.Error}}</div>
+                {{end}}
+                
+                <form method="POST" class="post-form">
+                    <div class="form-row">
+                        <div class="form-group form-group-large">
+                            <label for="title">标题 *</label>
+                            <input type="text" id="title" name="title" value="{{.Post.Title}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="slug">URL 别名</label>
+                            <input type="text" id="slug" name="slug" value="{{.Post.Slug}}" placeholder="自动生成">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category">分类</label>
+                            <input type="text" id="category" name="category" value="{{.Post.Category}}" placeholder="例如：技术">
+                        </div>
+                        <div class="form-group">
+                            <label for="tags">标签</label>
+                            <input type="text" id="tags" name="tags" value="{{join .Post.Tags ", "}}" placeholder="用逗号分隔">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">日期</label>
+                            <input type="date" id="date" name="date" value="{{formatDateShort .Post.Date}}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="content">内容 (Markdown)</label>
+                        <textarea id="content" name="content" rows="20" required>{{.Post.Content}}</textarea>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" name="published" {{if .Post.Published}}checked{{end}}>
+                            发布文章
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">保存文章</button>
+                        <a href="/admin/posts" class="btn">取消</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
